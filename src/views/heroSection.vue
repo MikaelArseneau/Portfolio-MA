@@ -4,22 +4,29 @@
       {{ titleText }}
     </h1>
     <div class="propos">
-      Salut ! Bienvenue sur mon
-      <span :style="{ color: colors[0] }">portfolio</span>. Je suis
-      <span :style="{ color: colors[1] }">développeur web</span>
-      et <span :style="{ color: colors[2] }">monteur vidéo</span>, deux passions
-      qui se complètent super bien. J'adore créer des interfaces clean et
-      animées avec Vue.js, tout en gardant cet œil créatif que le montage vidéo
-      m'a apporté.
+      Salut !
       <br />
       <br />
-      Que ce soit pour coder un site stylé ou monter une vidéo percutante, je
-      mets toute mon énergie dans mes projets. Tu as une idée en tête ? Un
-      projet qui te tient à cœur ? N'hésite surtout pas à me
+      Je suis <span :style="{ color: colors[0] }">développeur web</span> et
+      <span :style="{ color: colors[1] }">monteur vidéo</span>. Genre je fais du
+      CMS, je code... ahh oui pis je fais aussi du
+      <span :style="{ color: colors[2] }">SEO</span>. En soirée je monte des
+      vidéos (sauf les soirs de match des Canadiens, là j'ai d'autres
+      priorités).
+      <br />
+      <br />
+      Ces deux trucs vont super bien ensemble — le code pour structurer, le
+      montage pour rendre ça beau.
+      <br />
+      <br />
+      T'as un projet ? Viens me
       <span class="contact" :style="{ color: colors[3] }" @click="openContact"
         >contacter</span
-      >, ça me ferait plaisir d'en discuter autour d'une bonne bière (virtuelle
-      ou réelle) !
+      >, on discutera de tout ça autour d'une bière !
+      <br />
+      <br />
+      Go Habs Go ! 🏒
+      <em style="font-size: 0.8em; opacity: 0.7">pst... Ça sent la coupe</em>
     </div>
   </section>
 

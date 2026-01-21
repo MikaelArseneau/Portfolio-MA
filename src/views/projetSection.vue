@@ -139,7 +139,12 @@ const projets = [
   {
     titre: "Terminus.",
     image: "./terminus.webp",
-    collaboration: ["Alexandre Gendron", "Rafael Angon Dubé", "Mathieu Willet"],
+    collaboration: [
+      "Alexandre Gendron",
+      "Rafael Angon Dubé",
+      "Mathieu Willet",
+      "Sandrine Jean",
+    ],
     description:
       "Terminus est un court métrage que nous avons réalisé dans le cadre d'un projet de sensibilisation aux dangers de l'alcool au volant. Le film combine des prises de vue en caméra normale et en macro afin de créer une ambiance immersive et expressive *",
     logiciel: ["TouchDesigner"],
@@ -182,6 +187,7 @@ const projets = [
       "./chasseur1.webp",
       "./chasseur4.webp",
     ],
+    collaboration: [" Alexandre Gendron", "Mathieu Willet"],
   },
 ];
 
