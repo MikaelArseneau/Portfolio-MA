@@ -6,6 +6,8 @@
 }
 body {
   background-color: #fcf7f8;
+  overflow-x: hidden;
+  max-width: 100vw;
 }
 @font-face {
   font-family: "Clash";
@@ -14,4 +16,7 @@ body {
 @font-face {
   font-family: "Archivo";
   src: url("./assets/font/Archivo.ttf") format("truetype");
+}
+html {
+  scroll-behavior: smooth;
 }

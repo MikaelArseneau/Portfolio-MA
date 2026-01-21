@@ -241,7 +241,7 @@ onMounted(() => {
   bottom: 30px;
   display: inline-block;
   color: #1a1a1a;
-  background-color: aquamarine;
+  background-color: #576ca8;
 }
 
 @media (max-width: 800px) {

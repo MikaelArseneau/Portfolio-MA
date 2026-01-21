@@ -27,7 +27,6 @@
   </section>
 
   <footer>
-    <div>{{ timeDisplay }}</div>
     <div class="nom_footer">
       <div class="nom">Mikael Arseneau</div>
       <div class="nom">Développeur Front-End</div>
@@ -52,19 +51,6 @@ function openContact() {
   showContact.value = true;
 }
 
-function updateTime() {
-  const now = new Date();
-  const hours = now.getHours().toString().padStart(2, "0");
-  const minutes = now.getMinutes().toString().padStart(2, "0");
-  const seconds = now.getSeconds().toString().padStart(2, "0");
-  timeDisplay.value = `${hours}:${minutes}:${seconds}`;
-}
-
-onMounted(() => {
-  updateTime();
-  intervalId = setInterval(updateTime, 1000);
-});
-
 onUnmounted(() => {
   if (intervalId) {
     clearInterval(intervalId);
@@ -79,8 +65,10 @@ onUnmounted(() => {
   align-items: center;
   font-family: "Archivo", sans-serif;
   text-transform: uppercase;
-  font-size: 1.6em;
+  font-size: 1.3em;
   gap: 1em;
+  width: 100vw;
+  justify-content: space-between;
 }
 .annexe {
   width: 100%;

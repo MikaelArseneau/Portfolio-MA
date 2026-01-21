@@ -27,9 +27,9 @@
         @click.self="closeModal"
       >
         <div class="modal-content" @click="checkClose">
-          <div class="modal-header">
+          <h2 class="modal-header">
             {{ projets[selectedProject].titre }}
-          </div>
+          </h2>
 
           <div class="modal-body">
             <h3 class="modal-description">
@@ -41,13 +41,15 @@
             >
               <h4>Collaboration :</h4>
               <ul>
-                <li
-                  v-for="(collab, idx) in projets[selectedProject]
-                    .collaboration"
-                  :key="idx"
-                >
-                  {{ collab }}
-                </li>
+                <h5>
+                  <li
+                    v-for="(collab, idx) in projets[selectedProject]
+                      .collaboration"
+                    :key="idx"
+                  >
+                    {{ collab }}
+                  </li>
+                </h5>
               </ul>
             </div>
             <div v-if="projets[selectedProject].resultat" class="collaboration">
@@ -136,22 +138,50 @@ const projets = [
   },
   {
     titre: "Terminus.",
-    image: "./terminus.jpg",
+    image: "./terminus.webp",
     collaboration: ["Alexandre Gendron", "Rafael Angon Dubé", "Mathieu Willet"],
     description:
       "Terminus est un court métrage que nous avons réalisé dans le cadre d'un projet de sensibilisation aux dangers de l'alcool au volant. Le film combine des prises de vue en caméra normale et en macro afin de créer une ambiance immersive et expressive *",
     logiciel: ["TouchDesigner"],
     site: "https://youtu.be/NqmFHKgiS5o",
+    images: [
+      "./terminus.webp",
+      "./terminus2.webp",
+      "./terminus3.webp",
+      "./terminus4.webp",
+      "./terminus5.webp",
+    ],
   },
   {
     titre: "Coeur de la montagne.",
-    image: "./coeur_de_la_montagne.jpg",
+    image: "./montagne.webp",
 
     description:
       "Cœur de la montagne est une vidéo expérimentale mêlant animation 3D et sons créés avec des synthétiseurs. Le projet plonge le spectateur dans l'ascension d'une montagne à travers une expérience visuelle et sonore immersive *",
     logiciel: ["Maya"],
     site: "https://youtu.be/3KDPisDvK8E",
-    images: ["./coeur_de_la_montagne2.jpg", "./coeur_de_la_montagne3.jpg"],
+    images: [
+      "./montagne.webp",
+      "./montagne2.webp",
+      "./montagne3.webp",
+      "./montagne4.webp",
+      "./montagne5.webp",
+    ],
+  },
+  {
+    titre: "Chasseur de crânes.",
+    image: "./chasseur3.webp",
+
+    description:
+      "Jouer en tant qu'aventurier pris au piège dans un donjon. Il devra survivre aux nombreux ennemis qui cherchent à le vaincre et atteindre la sortie en vie. *",
+    logiciel: ["Maya"],
+    site: "https://github.com/AlexandreGendronCM/ProjetJeuVr_RealiteMixte",
+    images: [
+      "./chasseur3.webp",
+      "./chasseur2.webp",
+      "./chasseur1.webp",
+      "./chasseur4.webp",
+    ],
   },
 ];
 
@@ -169,13 +199,22 @@ watch(selectedProject, (newValue) => {
 
 function checkClose(event) {
   const tag = event.target.tagName.toLowerCase();
-  if (tag !== "img" && tag !== "h3" && tag !== "a") {
+  if (
+    tag !== "img" &&
+    tag !== "h3" &&
+    tag !== "a" &&
+    tag !== "h2" &&
+    tag !== "h5"
+  ) {
     closeModal();
   }
 }
 </script>
 
 <style scoped>
+h2 {
+  cursor: default;
+}
 /* ================== BASE ================== */
 .collaboration {
   display: flex;

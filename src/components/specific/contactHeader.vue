@@ -10,6 +10,7 @@
       <a class="email" href="mailto:mikael.arseneau@gmail.com">
         mikael.arseneau@gmail.com
       </a>
+      <a class="email" href="tel:5148899248"> (514) 889-9248 .</a>
       <div class="ville">Laval / Montréal</div>
     </div>
   </div>

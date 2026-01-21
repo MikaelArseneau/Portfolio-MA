@@ -106,6 +106,7 @@ function changeTitle() {
   z-index: 0;
   background-color: #f0f0f0;
   gap: 4rem;
+  scroll-margin-top: 0;
 }
 
 .propos {
