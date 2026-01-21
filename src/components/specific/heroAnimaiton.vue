@@ -1,18 +1,66 @@
 <template>
-  <div class="animationPage">
+  <div v-if="showIntro" class="animationPage">
     <div class="numero">
-      <div class="numero1">99</div>
-      <div class="numero1">78</div>
-      <div class="numero1">42</div>
-      <div class="numero1">0</div>
+      <div class="numero1">98 / 97 *</div>
+      <div class="numero1">64 / 97 *</div>
+      <div class="numero1">42 / 97 *</div>
+      <div class="numero1">0 / 97 *</div>
     </div>
-    <div class="scroller">Scroller</div>
   </div>
 </template>
 
+<script setup>
+import { ref, onMounted, defineEmits } from "vue";
+import gsap from "gsap";
+
+const showIntro = ref(true);
+const emit = defineEmits(["finish"]);
+
+onMounted(() => {
+  document.body.style.overflow = "hidden";
+
+  const numeros = document.querySelectorAll(".numero1");
+
+  gsap
+    .timeline()
+    .fromTo(
+      numeros,
+      { opacity: 0, y: 50 },
+      {
+        opacity: 1,
+        y: 0,
+        stagger: {
+          each: 0.4,
+          from: "end",
+          onStart: function () {
+            const index = Array.from(numeros).indexOf(this.targets()[0]);
+            if (index < numeros.length - 1) {
+              gsap.to(numeros[index + 1], { opacity: 0, duration: 0.2 });
+            }
+          },
+        },
+        duration: 0.5,
+        ease: "power2.out",
+      },
+    )
+    .to({}, { duration: 0.5 })
+    .to(".animationPage", {
+      opacity: 0,
+      duration: 0.5,
+      onComplete: () => {
+        showIntro.value = false;
+        document.body.style.overflow = "auto";
+        emit("finish"); // <-- important
+      },
+    });
+});
+</script>
+
 <style scoped>
 .animationPage {
-  position: sticky;
+  position: fixed;
+  top: 0;
+  left: 0;
   height: 100vh;
   width: 100vw;
   background-color: black;
@@ -21,6 +69,7 @@
   justify-content: center;
   align-items: center;
   flex-direction: column;
+  z-index: 9999;
 }
 
 .numero {
@@ -29,60 +78,12 @@
   justify-content: space-between;
   height: 80%;
   align-self: flex-start;
+  padding: 2rem;
 }
 
 .numero1 {
   font-size: 5em;
-  opacity: 0; /* invisible au départ */
-}
-
-.scroller {
-  font-size: 3em;
-  opacity: 0; /* invisible au départ */
-  position: absolute;
+  font-weight: bold;
+  opacity: 0;
 }
 </style>
-
-<script>
-import { onMounted } from "vue";
-import gsap from "gsap";
-
-export default {
-  setup() {
-    onMounted(() => {
-      const numeros = document.querySelectorAll(".numero1");
-      const scroller = document.querySelector(".scroller");
-      const page = document.querySelector(".animationPage");
-
-      // Timeline pour les nombres
-      let tl = gsap.timeline();
-
-      // Animation des nombres du bas vers le haut
-      tl.fromTo(
-        numeros,
-        { opacity: 0 },
-        {
-          opacity: 1,
-          y: 0,
-          stagger: { each: 0.5, from: "end" },
-          duration: 0.01,
-          ease: "linear",
-        }
-      )
-
-        // Une fois le dernier nombre affiché (99), tout disparaît
-        .to(numeros, {
-          opacity: 0,
-          duration: 0.5,
-          delay: 0.2, // petit délai pour que le 99 reste visible un instant
-        })
-
-        // Le texte "Scroller" apparaît au centre
-        .to(page, {
-          scale: 0,
-          duration: 0.2,
-        });
-    });
-  },
-};
-</script>

@@ -13,7 +13,7 @@ onMounted(() => {
     animate(".img-group", {
       transform: ["none", `translateX(-${items.length - 1}00vw)`],
     }),
-    { target: container }
+    { target: container },
   );
 });
 </script>
@@ -115,6 +115,13 @@ onMounted(() => {
 </template>
 
 <style scoped>
+#Competence {
+  width: 100vw;
+  position: relative;
+  z-index: 2;
+  background-color: #f0f0f0;
+}
+
 .header_competence {
   display: flex;
   flex-direction: column;
@@ -124,20 +131,25 @@ onMounted(() => {
   gap: -3em;
   overflow: hidden;
   text-transform: uppercase;
+  background-color: #f0f0f0;
 }
+
 .deuxieme {
   font-family: "Clash", sans-serif;
 }
+
 .premier {
   align-self: self-start;
   margin-left: -100px;
   font-family: "Archivo", sans-serif;
 }
+
 .troisieme {
   align-self: self-end;
   margin-right: -100px;
   font-family: "Archivo", sans-serif;
 }
+
 .test {
   color: #1a1a1a;
   font-family: "Clash", sans-serif;
@@ -146,14 +158,11 @@ onMounted(() => {
   margin-top: 1em;
   font-size: 3em;
 }
-#Competence {
-  width: 100vw;
-}
 
 #Competence h3 {
   margin-top: 1em;
   letter-spacing: 0.3px;
-  color: aliceblue;
+  color: #1a1a1a;
 }
 
 #Competence header,
@@ -198,20 +207,28 @@ onMounted(() => {
   width: 100vw;
   color: aliceblue;
 }
+
 .texte-wrapper {
-  max-width: 600px; /* limite la largeur du texte */
+  max-width: 600px;
   text-align: center;
-  background-color: #ee6055;
+  background: transparent;
+  border-width: 1px;
+  border-style: solid;
+  border-color: rgba(255, 255, 255, 0.4);
   padding: 2em;
-  display: inline-block; /* nécessaire pour que rotate fonctionne bien */
+  display: inline-block;
   transform-origin: center center;
+  color: white;
+  border-radius: 10px 10px 50px 0px;
 }
+
 #Competence header h2 {
   font-size: 72px;
   font-weight: 700;
   letter-spacing: 0.02em;
   line-height: 1.2;
   overflow: hidden;
+  color: #1a1a1a;
 }
 
 .texte-container h3 {
@@ -223,7 +240,10 @@ onMounted(() => {
   position: relative;
   bottom: 30px;
   display: inline-block;
+  color: #1a1a1a;
+  background-color: aquamarine;
 }
+
 @media (max-width: 800px) {
   .texte-wrapper {
     max-width: 300px;
@@ -232,6 +252,7 @@ onMounted(() => {
     font-size: 12px;
   }
 }
+
 @media (max-width: 600px) {
   #Competence header h2 {
     font-size: 50px;

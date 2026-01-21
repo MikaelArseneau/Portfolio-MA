@@ -12,8 +12,9 @@ import heroAnimaiton from "./components/specific/heroAnimaiton.vue";
   <div id="app">
     <header></header>
     <main>
+      <heroAnimaiton></heroAnimaiton>
       <heroSection />
-      <ProposSection />
+
       <projet></projet>
       <Competence />
 

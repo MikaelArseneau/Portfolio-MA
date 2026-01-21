@@ -1,115 +1,100 @@
 <template>
-  <h2 class="projects-title" id="projets">Mes Projets *</h2>
+  <section class="projects-section">
+    <!-- <h2 class="projects-title" id="projets">Mes Projets *</h2> -->
 
-  <div class="projects-wrapper">
-    <div class="image-container-sticky">
-      <div class="image-container" tabindex="0">
-        <img
-          v-for="(projet, index) in projets"
-          :key="index"
-          :src="projet.image"
-          :alt="`Aperçu du projet ${projet.titre}`"
-          class="image_projet"
-          :class="{ active: activeProjectIndex === index }"
-        />
+    <div
+      class="display_project"
+      :class="{ 'modal-open': selectedProject !== null }"
+    >
+      <div
+        class="projects_ctn"
+        v-for="(project, index) in projets"
+        :key="index"
+        @click="openModal(index)"
+      >
+        <div class="projet">
+          <img :src="project.image" :alt="project.titre" class="image_projet" />
+          <span class="titre_projet">{{ project.titre }}</span>
+        </div>
       </div>
     </div>
 
-    <div class="projects-list">
+    <!-- MODALE -->
+    <Transition name="modal-fade">
       <div
-        v-for="(projet, index) in projets"
-        :key="index"
-        :data-index="index"
-        class="project-section"
-        :class="{ active: activeProjectIndex === index }"
+        v-if="selectedProject !== null"
+        class="modal-overlay"
+        @click.self="closeModal"
       >
-        <div class="projet_display">
-          <h3 class="title">{{ projet.titre }}</h3>
-          <div v-if="projet.description" class="project_content">
-            <p v-html="projet.description"></p>
+        <div class="modal-content" @click="checkClose">
+          <div class="modal-header">
+            {{ projets[selectedProject].titre }}
+          </div>
 
-            <div v-if="projet.collaboration" class="collaboration">
+          <div class="modal-body">
+            <h3 class="modal-description">
+              {{ projets[selectedProject].description }}
+            </h3>
+            <div
+              v-if="projets[selectedProject].collaboration"
+              class="collaboration"
+            >
               <h4>Collaboration :</h4>
               <ul>
-                <li v-for="(collab, idx) in projet.collaboration" :key="idx">
+                <li
+                  v-for="(collab, idx) in projets[selectedProject]
+                    .collaboration"
+                  :key="idx"
+                >
                   {{ collab }}
                 </li>
               </ul>
             </div>
+            <div v-if="projets[selectedProject].resultat" class="collaboration">
+              <h4>Résultat :</h4>
+              <p>{{ projets[selectedProject].resultat }}</p>
+            </div>
 
-            <div v-if="projet.logiciel" class="logiciels">
-              <h4>Logiciels :</h4>
-              <ul>
-                <li v-for="(log, idx) in projet.logiciel" :key="idx">
-                  {{ log }}
-                </li>
-              </ul>
+            <div v-if="projets[selectedProject].site" class="site-link">
+              Voir le projet :
+              <a :href="projets[selectedProject].site" target="_blank">
+                {{ projets[selectedProject].titre }}</a
+              >
             </div>
-            <div v-if="projet.resultat" class="resultat">
-              <h4>Résultat :</h4>
-              <p>{{ projet.resultat }}</p>
+            <hr class="divider" />
+            <div class="images-grid">
+              <img
+                v-for="i in projets[selectedProject].images || [
+                  projets[selectedProject].image,
+                ]"
+                :key="i"
+                :src="i"
+                :alt="projets[selectedProject].titre"
+                class="modal_image_in"
+              />
             </div>
-            <div v-if="projet.site" class="resultat">
-              <h4>Résultat :</h4>
-              <a :href="projet.site" target="_blank">{{ projet.titre }}</a>
-            </div>
-            <!-- <div v-if="projet.gallery" class="parent">
-              <div class="div1 grid-item">
-                <img
-                  v-if="projet.gallery[0]"
-                  :src="projet.gallery[0]"
-                  :alt="`${projet.titre} - Image 1`"
-                />
-              </div>
-              <div class="div2 grid-item">
-                <img
-                  v-if="projet.gallery[1]"
-                  :src="projet.gallery[1]"
-                  :alt="`${projet.titre} - Image 2`"
-                />
-              </div>
-              <div class="div3 grid-item">
-                <img
-                  v-if="projet.gallery[2]"
-                  :src="projet.gallery[2]"
-                  :alt="`${projet.titre} - Image 3`"
-                />
-              </div>
-              <div class="div4 grid-item">
-                <img
-                  v-if="projet.gallery[3]"
-                  :src="projet.gallery[3]"
-                  :alt="`${projet.titre} - Image 4`"
-                />
-              </div>
-            </div> -->
           </div>
         </div>
       </div>
-    </div>
-  </div>
+    </Transition>
+  </section>
 </template>
 
 <script setup>
-import { ref, onMounted, onUnmounted } from "vue";
+import { ref, watch } from "vue";
 
-const activeProjectIndex = ref(0);
+const selectedProject = ref(null);
 
 const projets = [
   {
     titre: "Aureo.",
     description:
-      "Plateforme dédiée à la créativité et à l'inspiration, pour découvrir, partager et admirer des œuvres artistiques variées — peinture, photographie, design, musique ou projets multimédias *",
-    image: "../../public/aureo.png",
-
+      "Plateforme dédiée à la créativité et à l'inspiration, pour découvrir, partager et admirer des œuvres artistiques variées — photographie, design graphique, architectures, illustrations et styles *",
+    image: "./aureo.webp",
+    collaboration: ["Alexandre Gendron", "Rafael Angon Dubé"],
     logiciel: ["Figma", "Vscode"],
     site: "https://mikaelarseneau.github.io/Aureo/",
-    gallery: [
-      "../../public/aureo.png",
-      "../../public/aureo2.png",
-      "../../public/aureo3.png",
-      "../../public/aureo4.png",
-    ],
+    images: ["./aureo.webp", "./aureo3.webp", "./aureo1.webp", "./aureo2.webp"],
   },
   {
     titre: "Métrage.",
@@ -117,261 +102,402 @@ const projets = [
       "Site de critiques cinématographiques — films, séries et courts-métrages — rédigées avec soin et passion *",
     collaboration: ["Alexandre Gendron", "Rafael Angon Dubé"],
     logiciel: ["Figma", "Wordpress"],
-    image: "../../public/metrage.png",
-    gallery: [
-      "../../public/metrage.png",
-      "../../public/metrage2.png",
-      "../../public/arbre_en_face.webp",
-      "../../public/hero-bg.jpg",
+    image: "./metrage.webp",
+    images: [
+      "./metrage.webp",
+      "./metrage2.webp",
+      "./metrage3.webp",
+      "./metrage5.webp",
+      "./metrage4.webp",
     ],
   },
   {
     titre: "Transforsmonstre.",
     collaboration: ["Alexandre Gendron", "Rafael Angon Dubé", "Mathieu Willet"],
-    image: "../../public/hero-bg.jpg",
+    image: "./hero-bg.jpg",
     description:
       "Un court-métrage créé à partir de scènes de films d'Halloween pour donner vie à un tout nouveau monstre. Projeté sur la Place Bell le 31 octobre 2025 *",
     logiciel: ["Davinci"],
-    site: "Google.com",
-    gallery: [
-      "../../public/hero-bg.jpg",
-      "../../public/metrage.png",
-      "../../public/aureo.png",
-      "../../public/arbre_en_face.webp",
-    ],
+    site: "https://youtu.be/g_uvBUEz45w",
   },
   {
     titre: "Arbre en face.",
-    image: "../../public/arbre_en_face.webp",
-    collaboration: ["Alexandre Gendron", "Rafael Angon Dubé", "Mathieu Willet"],
+    image: "./arbre_en_face.webp",
+    collaboration: [
+      " Alexandre Gendron",
+      "Rafael Angon Dubé",
+      "Mathieu Willet",
+    ],
     description:
       "Une expérience où les participants font apparaître des graines en forme de visages. Celles-ci tombent et s'enracinent, puis peuvent être arrosées grâce à un arrosoir virtuel. Selon la quantité d'eau reçue, elles deviennent une fleur, un buisson ou un arbre, toujours avec les visages des participants précédents intégrés dans les fleurs, fruits ou pommes *",
     logiciel: ["TouchDesigner"],
     resultat: "En développement",
     site: "https://mammouths.github.io/projet/#/",
-    gallery: [
-      "../../public/arbre_en_face.webp",
-      "../../public/hero-bg.jpg",
-      "../../public/metrage.png",
-      "../../public/aureo.png",
-    ],
+  },
+  {
+    titre: "Terminus.",
+    image: "./terminus.jpg",
+    collaboration: ["Alexandre Gendron", "Rafael Angon Dubé", "Mathieu Willet"],
+    description:
+      "Terminus est un court métrage que nous avons réalisé dans le cadre d'un projet de sensibilisation aux dangers de l'alcool au volant. Le film combine des prises de vue en caméra normale et en macro afin de créer une ambiance immersive et expressive *",
+    logiciel: ["TouchDesigner"],
+    site: "https://youtu.be/NqmFHKgiS5o",
+  },
+  {
+    titre: "Coeur de la montagne.",
+    image: "./coeur_de_la_montagne.jpg",
+
+    description:
+      "Cœur de la montagne est une vidéo expérimentale mêlant animation 3D et sons créés avec des synthétiseurs. Le projet plonge le spectateur dans l'ascension d'une montagne à travers une expérience visuelle et sonore immersive *",
+    logiciel: ["Maya"],
+    site: "https://youtu.be/3KDPisDvK8E",
+    images: ["./coeur_de_la_montagne2.jpg", "./coeur_de_la_montagne3.jpg"],
   },
 ];
 
-let observer = null;
+function openModal(index) {
+  selectedProject.value = index;
+}
 
-onMounted(() => {
-  const options = {
-    root: null,
-    rootMargin: "-50% 0px -50% 0px",
-    threshold: 0,
-  };
+function closeModal() {
+  selectedProject.value = null;
+}
 
-  observer = new IntersectionObserver((entries) => {
-    entries.forEach((entry) => {
-      if (entry.isIntersecting) {
-        const index = parseInt(entry.target.dataset.index);
-        activeProjectIndex.value = index;
-      }
-    });
-  }, options);
-
-  const sections = document.querySelectorAll(".project-section");
-  sections.forEach((section) => {
-    observer.observe(section);
-  });
+watch(selectedProject, (newValue) => {
+  document.body.style.overflow = newValue !== null ? "hidden" : "";
 });
 
-onUnmounted(() => {
-  if (observer) {
-    observer.disconnect();
+function checkClose(event) {
+  const tag = event.target.tagName.toLowerCase();
+  if (tag !== "img" && tag !== "h3" && tag !== "a") {
+    closeModal();
   }
-});
+}
 </script>
 
 <style scoped>
-.resultat {
+/* ================== BASE ================== */
+.collaboration {
+  display: flex;
+  flex-direction: row;
+  gap: 0.5em;
   margin-bottom: 1em;
+  flex-wrap: wrap;
 }
-a {
-  text-decoration: underline;
-  color: #213547;
-  font-size: 2em;
-  transition: all 0.2s ease-in-out;
-  margin-bottom: 1em;
+
+li {
+  margin-left: 1em;
+  list-style-type: "-";
 }
-a:hover {
-  color: rgba(100, 108, 255, 0.1);
+
+.divider {
+  width: 100%;
+  max-width: 400px;
+  border: none;
+  border-top: 1px solid rgba(0, 0, 0, 0.1);
+  margin: 2rem 0;
 }
+
+/* ================== SECTION ================== */
+.projects-section {
+  position: relative;
+  z-index: 2;
+  background-color: #f7f7f7;
+  min-height: 100vh;
+  width: 100%;
+  padding: 2rem;
+}
+
+/* ================== TITRE ================== */
 .projects-title {
   padding: 2rem;
   font-size: 5rem;
   text-align: center;
   text-transform: uppercase;
+  margin-bottom: 3rem;
 }
 
-.projects-wrapper {
+/* ================== PROJETS ================== */
+.display_project {
   display: flex;
-  gap: 4rem;
-  padding: 3rem 2rem;
-  min-height: 100vh;
+  justify-content: space-evenly;
+  flex-wrap: wrap;
+  gap: 2rem;
+  transition: opacity 0.4s ease;
+  padding-top: 4em;
 }
 
-.image-container-sticky {
-  position: sticky;
-  top: 50%;
-  transform: translateY(-50%);
-  height: fit-content;
-  flex-shrink: 0;
-}
-
-.image-container {
-  position: relative;
-  width: 300px;
-  aspect-ratio: 16 / 9;
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
+.projet {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
   cursor: pointer;
-  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
-  outline: none;
-}
-
-.image-container:hover {
-  transform: scale(1.05);
-  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
-}
-
-.image-container:focus {
-  transform: scale(1.05) rotate(2deg);
-  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.3);
+  gap: 0.8rem;
 }
 
 .image_projet {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
+  width: 100px;
+  height: 100px;
   object-fit: cover;
+  transition:
+    width 0.6s ease,
+    height 0.6s ease,
+    opacity 0.4s ease;
+}
+
+.titre_projet {
+  font-size: 0.8rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  text-align: center;
+  transition: opacity 0.4s ease;
+}
+
+/* ✨ QUAND MODALE OUVERTE ✨ */
+.display_project.modal-open .image_projet {
+  width: 25px;
+  height: 25px;
+  opacity: 0.6;
+}
+
+.display_project.modal-open .titre_projet {
   opacity: 0;
-  transition: opacity 0.5s ease;
 }
 
-.image_projet.active {
-  opacity: 1;
+.display_project.modal-open {
+  pointer-events: none;
 }
 
-.projects-list {
-  flex: 1;
-  padding-bottom: 40vh;
-}
-
-.project-section {
-  scroll-snap-align: start;
-  max-height: 100vh;
+/* ================== MODALE ================== */
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  backdrop-filter: blur(5px);
   display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+  padding: 1rem;
+}
+
+.modal-content {
+  background: transparent;
+  border-radius: 16px;
+  max-width: 100%;
+  width: 100%;
+  max-height: 90vh;
+  overflow-y: auto;
+  padding: 2rem;
+  box-sizing: border-box;
+  cursor: pointer;
+}
+
+.modal-header {
+  font-size: 2rem;
+  font-weight: 600;
+  margin-bottom: 1rem;
+  text-align: center;
+}
+
+.modal-body {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  justify-content: center;
+}
+
+.modal-description {
+  font-size: 0.8em;
+  cursor: default;
+  text-align: center;
+  width: 100%;
+  max-width: 400px;
+  margin-bottom: 2rem;
+}
+
+.site-link {
+  margin: 1rem 0;
+  text-align: center;
+}
+
+.site-link a {
+  color: #646cff;
+  text-decoration: underline;
+}
+
+.images-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  width: 100%;
   align-items: center;
 }
 
-.projet_display {
+.modal_image_in {
   width: 100%;
-  display: flex;
-  flex-direction: column;
-  gap: 1.5rem;
-  border-top: 1px solid #213547;
-  padding: 2rem 0;
-  opacity: 0.3;
-  transition: opacity 0.5s ease;
+  max-width: 400px;
+  height: auto;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  cursor: default;
+  border-radius: 8px;
 }
 
-.project-section.active .projet_display {
-  opacity: 1;
+/* ================== ANIMATION ================== */
+.modal-fade-enter-active,
+.modal-fade-leave-active {
+  transition: opacity 0.8s ease;
 }
 
-.title {
-  font-size: 2.5rem;
-  font-weight: 600;
-  margin: 0;
-  text-transform: uppercase;
+.modal-fade-enter-from,
+.modal-fade-leave-to {
+  opacity: 0;
 }
 
-.project_content {
-  display: flex;
-  flex-direction: column;
-  gap: 1rem;
-  font-size: 1rem;
-  line-height: 1.6;
-}
+/* ================== RESPONSIVE ================== */
 
-.project_content p {
-  margin: 0;
-}
+/* ================== RESPONSIVE ================== */
 
-.texte_apro {
-  font-weight: 600;
-  color: #646cff;
-}
-
-.collaboration,
-.logiciels {
-  margin-top: 1rem;
-}
-
-.collaboration h4,
-.logiciels h4 {
-  font-size: 1.1rem;
-  margin: 0 0 0.5rem 0;
-  font-weight: 600;
-  text-transform: uppercase;
-}
-
-.collaboration ul,
-.logiciels ul {
-  list-style: none;
-  padding: 0;
-  margin: 0;
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.5rem;
-}
-
-.collaboration li,
-.logiciels li {
-  background: rgba(100, 108, 255, 0.1);
-  padding: 0.3rem 0.8rem;
-  border-radius: 4px;
-  font-size: 0.9rem;
-}
-
-/* Responsive */
+/* Tablettes (768px et moins) */
 @media (max-width: 768px) {
-  .projects-wrapper {
-    flex-direction: column;
-    gap: 2rem;
-    padding: 2rem 1rem;
-  }
-
-  .image-container-sticky {
-    position: relative;
-    top: 0;
-    transform: none;
-  }
-
-  .image-container {
-    width: 100%;
-    max-width: 400px;
-    margin: 0 auto;
-  }
-
-  .title {
-    font-size: 1.8rem;
+  .projects-section {
+    padding: 1rem;
   }
 
   .projects-title {
     font-size: 3rem;
+    padding: 1rem;
+    margin-bottom: 2rem;
   }
 
-  .parent {
-    height: 400px;
+  .display_project {
+    gap: 1.5rem;
+    padding-top: 2em;
+  }
+
+  .image_projet {
+    width: 80px;
+    height: 80px;
+  }
+
+  .titre_projet {
+    font-size: 0.7rem;
+  }
+
+  .modal-content {
+    padding: 1.5rem;
+  }
+
+  .modal-header {
+    font-size: 1.5rem;
+  }
+
+  .modal-description {
+    font-size: 0.9em;
+    max-width: 100%;
+  }
+
+  /* 👇 IMAGES RÉDUITES SUR TABLETTE */
+  .modal_image_in {
+    max-width: 300px;
+  }
+
+  .collaboration {
+    flex-direction: column;
+    gap: 0.3em;
+  }
+}
+
+/* Mobiles (480px et moins) */
+@media (max-width: 480px) {
+  .projects-title {
+    font-size: 2rem;
+    padding: 0.5rem;
+  }
+
+  .display_project {
+    gap: 1rem;
+    padding-top: 1em;
+    justify-content: center;
+  }
+
+  .image_projet {
+    width: 60px;
+    height: 60px;
+  }
+
+  .titre_projet {
+    font-size: 0.6rem;
+  }
+
+  .modal-overlay {
+    padding: 0.5rem;
+  }
+
+  .modal-content {
+    padding: 1rem;
+    max-height: 95vh;
+  }
+
+  .modal-header {
+    font-size: 1.2rem;
+    margin-bottom: 0.5rem;
+  }
+
+  .modal-description {
+    font-size: 0.8em;
+    margin-bottom: 1rem;
+  }
+
+  .images-grid {
+    gap: 1rem;
+  }
+
+  /* 👇 IMAGES ENCORE PLUS PETITES SUR MOBILE */
+  .modal_image_in {
+    max-width: 250px;
+  }
+
+  .divider {
+    margin: 1rem 0;
+  }
+
+  .collaboration h4 {
+    font-size: 0.9rem;
+  }
+
+  .collaboration li {
+    font-size: 0.8rem;
+    margin-left: 0.5em;
+  }
+
+  .site-link {
+    font-size: 0.9rem;
+  }
+
+  .display_project.modal-open .image_projet {
+    width: 15px;
+    height: 15px;
+  }
+}
+
+/* Petits mobiles (360px et moins) */
+@media (max-width: 360px) {
+  .projects-title {
+    font-size: 1.5rem;
+  }
+
+  .modal-header {
+    font-size: 1rem;
+  }
+
+  .modal-description {
+    font-size: 0.75em;
+  }
+
+  /* 👇 IMAGES TRÈS PETITES SUR PETITS ÉCRANS */
+  .modal_image_in {
+    max-width: 200px;
   }
 }
 </style>

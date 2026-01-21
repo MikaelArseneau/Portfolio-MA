@@ -3,9 +3,12 @@
     <button class="btn_contact" @click="$emit('close')">Retour au site</button>
     <h2 class="title_contact">Me contacter *</h2>
     <div class="contact_page">
-      <div class="titre_info">Parlons d'un projet ou même du Canadien</div>
-      <a class="email" href="mailto:mikael.arseneau@hotmail.ca">
-        mikael.arseneau@hotmail.ca
+      <div class="titre_info">
+        Parlons d'un projet, ou même de la victoire du Canadien, ou simplement
+        pour une dégustation de bonne bière…
+      </div>
+      <a class="email" href="mailto:mikael.arseneau@gmail.com">
+        mikael.arseneau@gmail.com
       </a>
       <div class="ville">Laval / Montréal</div>
     </div>
@@ -20,7 +23,7 @@ const emit = defineEmits(["close"]);
 .container_contact {
   position: fixed;
   inset: 0;
-  background-color: #ee6055;
+  background: conic-gradient(at right, #78350f, #0ea5e9, #fed7aa);
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -102,7 +105,9 @@ const emit = defineEmits(["close"]);
   background: #fcf7f8;
   font-weight: 900;
   cursor: pointer;
-  transition: color 0.4s, scale 0.1s;
+  transition:
+    color 0.4s,
+    scale 0.1s;
   position: relative;
   z-index: 1;
 }
